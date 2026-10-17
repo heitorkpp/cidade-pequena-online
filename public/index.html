@@ -5,6 +5,33 @@
 <meta name="theme-color" content="#183c34"><title>Cidade Pequena Online</title>
 <style>
 :root{--ink:#18312b;--paper:#fff9e8;--green:#2b7552;--gold:#ffcf5a;--red:#b74a4a}*{box-sizing:border-box}body{margin:0;background:#183c34;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 14px;background:var(--green);color:white;font-weight:800}.shell{max-width:1200px;margin:auto;padding:12px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:white;margin-bottom:10px}.brand{font-weight:1000;font-size:clamp(20px,4vw,30px);letter-spacing:-.8px}.brand span{color:var(--gold)}.status{font-size:12px;background:#244e41;border:1px solid #467363;padding:7px 10px;border-radius:99px;color:#eaffdf}.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px}.gamebox,.panel{background:var(--paper);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px #071c1770}.canvas-wrap{position:relative;background:#81b96a;line-height:0}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none}.hint{font-size:12px;color:#547066;padding:8px 12px;line-height:1.35}.side{display:flex;flex-direction:column;gap:12px}.panel{padding:14px}.panel h2{font-size:16px;margin:0 0 10px}.row{display:flex;gap:7px}.row input{min-width:0;flex:1;border:2px solid #d9ddc9;border-radius:10px;padding:10px;background:white}.row button{padding-inline:12px}.small{font-size:12px;color:#5d7066;line-height:1.4}.chatlog{height:310px;overflow:auto;background:#f0eedb;border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;overflow-wrap:anywhere}.msg{font-size:13px;line-height:1.3}.msg b{color:#276746}.msg.system{color:#8b6b22;font-style:italic}.chatform{display:flex;gap:6px;margin-top:8px}.chatform input{flex:1;min-width:0;border:2px solid #d9ddc9;border-radius:10px;padding:10px}.chatform button{padding:9px 12px}.online{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:10px}.dot{display:inline-block;width:8px;height:8px;background:#56b76b;border-radius:50%;margin-right:5px}.joincover{position:absolute;inset:0;background:#183c34e8;display:flex;align-items:center;justify-content:center;padding:16px;line-height:1.3}.joincard{max-width:330px;background:var(--paper);border-radius:18px;padding:20px;text-align:center;box-shadow:0 8px 32px #0005}.joincard h1{margin:0 0 6px;font-size:25px}.joincard p{font-size:13px;color:#63746b}.joincard input{width:100%;padding:12px;border:2px solid #d9ddc9;border-radius:11px;margin:8px 0}.joincard button{width:100%;padding:12px}.mobile-controls{display:none;position:absolute;bottom:12px;left:12px;right:12px;justify-content:space-between;pointer-events:none}.stick{width:106px;height:106px;border-radius:50%;background:#193c3470;border:2px solid #fff9;position:relative;pointer-events:auto;touch-action:none}.nub{position:absolute;width:42px;height:42px;left:30px;top:30px;border-radius:50%;background:#fffde2;border:3px solid #4d8066;box-shadow:0 2px 5px #0004}.mobile-label{color:white;font-size:10px;text-align:center;text-shadow:0 1px 3px #000}.foot{color:#bdd8cb;font-size:11px;text-align:center;padding:12px}.hidden{display:none!important}@media(max-width:800px){.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr}.chatlog{height:170px}.top{align-items:flex-start}.mobile-controls{display:flex}.hint{font-size:11px}.shell{padding:8px}.brand{font-size:22px}}@media(max-width:450px){.status{max-width:125px;text-align:center}.chatlog{height:145px}}
+/* FIX: controles touch sempre visíveis e interface adaptada ao celular deitado */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-controls { display:flex !important; z-index:20; }
+  .stick { touch-action:none; }
+  #world { touch-action:none; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .shell { max-width:none; padding:4px; }
+  .top, .foot, .hint { display:none; }
+  .layout { grid-template-columns:minmax(0, 1fr) 220px; gap:6px; align-items:start; }
+  .gamebox { min-width:0; }
+  .side { display:flex; min-width:0; gap:6px; }
+  .panel { padding:7px; }
+  .chatlog { height:100px; }
+  .mobile-controls { display:flex !important; }
+  .stick { width:88px; height:88px; }
+  .nub { left:22px; top:22px; }
+}
+@media (orientation: portrait) and (hover: none) and (pointer: coarse) {
+  body::after {
+    content:"📱 VIRE O CELULAR DE LADO PARA JOGAR!";
+    position:fixed; inset:0; z-index:99999;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px; background:#183c34; color:#fff9e8;
+    font-size:24px; font-weight:900; text-align:center; line-height:1.5;
+  }
+}
 </style></head><body>
 <div class="shell"><header class="top"><div><div class="brand">🏘️ CIDADE <span>PEQUENA</span></div><div style="font-size:12px;color:#cce5d7">ONLINE • explore, conheça gente e converse</div></div><div class="status" id="status">● Conectando...</div></header>
 <div class="layout"><section class="gamebox"><div class="canvas-wrap"><canvas id="world" width="960" height="600" aria-label="Mapa da cidade"></canvas><div class="joincover" id="joinCover"><div class="joincard"><h1>🏡 Bem-vindo!</h1><p>Escolha um apelido e entre na cidade. Seus amigos podem entrar pelo mesmo link.</p><input id="nameInput" maxlength="16" placeholder="Seu apelido" autocomplete="nickname"><button id="joinBtn">ENTRAR NA CIDADE 🚪</button><p id="joinError"></p></div></div><div class="mobile-controls" id="mobileControls"><div><div class="stick" id="stick"><div class="nub" id="nub"></div></div><div class="mobile-label">ARRASTE PARA ANDAR</div></div><div style="align-self:flex-end;text-align:right;color:white;text-shadow:0 1px 3px #000;font-size:11px">🕹️ Movimento livre<br>Toque no mapa para olhar</div></div></div><div class="hint">🕹️ Computador: WASD ou setas. Celular: arraste o joystick. Caminhe pela praça, visite a vizinhança e converse no chat.</div></section>
